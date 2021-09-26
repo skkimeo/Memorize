@@ -52,7 +52,7 @@ struct ContentView: View {
     var vehicleButton: some View {
         VStack {
             Button {
-                emojis = vehicleEmojis
+                emojis = vehicleEmojis.shuffled()
             } label: {
                 VStack {
                     Image(systemName: "car.fill").font(.largeTitle)
@@ -65,7 +65,7 @@ struct ContentView: View {
     var foodButton: some View {
         VStack {
             Button {
-                emojis = foodEmojis
+                emojis = foodEmojis.shuffled()
             } label: {
                 VStack {
                     Image(systemName: "car.fill").font(.largeTitle)
@@ -78,7 +78,7 @@ struct ContentView: View {
     var animalButton: some View {
         VStack {
             Button {
-                emojis = animalEmojis
+                emojis = animalEmojis.shuffled()
             } label: {
                 VStack {
                     Image(systemName: "car.fill").font(.largeTitle)
