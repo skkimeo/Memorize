@@ -21,15 +21,14 @@ struct ContentView: View {
                          "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶",
                          "🛥", "🚞", "🚤", "🚲", "🚡", "🚕", "🚟", "🚃"]
     
-//    @State var emojiCount = 24
+    @State var emojiCount = 17
     
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                        let MaxCount = Int.random(in: 4..<emojis.count)
-                        ForEach(emojis[0..<MaxCount], id: \.self) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: widthThatBestFits(cardCount: emojiCount)))]) {
+                        ForEach(emojis[0..<emojiCount], id: \.self) {
                             CardView(content: $0).aspectRatio(2/3, contentMode: .fit)
                         }
                     }
@@ -56,6 +55,7 @@ struct ContentView: View {
         VStack {
             Button {
                 emojis = vehicleEmojis.shuffled()
+                emojiCount = Int.random(in: 4..<emojis.count)
             } label: {
                 VStack {
                     Image(systemName: "car.fill").font(.largeTitle)
@@ -69,6 +69,7 @@ struct ContentView: View {
         VStack {
             Button {
                 emojis = foodEmojis.shuffled()
+                emojiCount = Int.random(in: 4..<emojis.count)
             } label: {
                 VStack {
                     Image(systemName: "bag.fill").font(.largeTitle)
@@ -82,6 +83,7 @@ struct ContentView: View {
         VStack {
             Button {
                 emojis = animalEmojis.shuffled()
+                emojiCount = Int.random(in: 4..<emojis.count)
             } label: {
                 VStack {
                     Image(systemName: "hare.fill").font(.largeTitle)
@@ -89,6 +91,20 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+}
+
+func widthThatBestFits(cardCount: Int) -> CGFloat {
+    switch cardCount {
+    case 4:
+        return 110
+    case 5...9:
+        return 80
+    case 10...16:
+        return 63
+    default:
+        return 62
     }
 }
 
