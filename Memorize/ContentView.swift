@@ -17,23 +17,49 @@ struct ContentView: View {
     @State var emojiCount = 24
     
     var body: some View {
-        VStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(vechicleEmojis[0..<emojiCount], id: \.self) {
-                        CardView(content: $0).aspectRatio(2/3, contentMode: .fit)
+        NavigationView {
+            VStack{
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                        ForEach(vechicleEmojis[0..<emojiCount], id: \.self) {
+                            CardView(content: $0).aspectRatio(2/3, contentMode: .fit)
+                        }
                     }
                 }
+                .foregroundColor(.red)
+                Spacer()
+                HStack {
+                    Spacer()
+                    ThemeButton(name: "Vehicles", icon: "car.fill")
+                    Spacer()
+                    ThemeButton(name: "Food", icon: "car.fill") // fork.knife
+                    Spacer()
+                    ThemeButton(name: "Animals", icon: "car.fill") // pawprint.fill
+                    Spacer()
+                }
+                .padding(.top)
             }
-            .foregroundColor(.red)
-            Spacer()
-            HStack {
-                //chooseTheme(vechicleEmojis)
-                //chooseTheme(foodEmojis)
-                //chooseTheme(animalEmojis)
+            .padding(.horizontal)
+            .navigationTitle("Memorize!")
+        }
+    }
+}
+
+struct ThemeButton: View {
+    var name: String
+    var icon: String
+    
+    var body: some View {
+        VStack {
+            Button {
+                //some kind of action(shuffle on click)
+            } label: {
+                VStack {
+                    Image(systemName: icon).font(.largeTitle)
+                    Text(name).font(.footnote)
+                }
             }
         }
-        .padding(.horizontal)
     }
 }
 
