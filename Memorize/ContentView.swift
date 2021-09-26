@@ -21,12 +21,15 @@ struct ContentView: View {
                          "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶",
                          "🛥", "🚞", "🚤", "🚲", "🚡", "🚕", "🚟", "🚃"]
     
+//    @State var emojiCount = 24
+    
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                        ForEach(emojis[0..<emojis.count], id: \.self) {
+                        let MaxCount = Int.random(in: 4..<emojis.count)
+                        ForEach(emojis[0..<MaxCount], id: \.self) {
                             CardView(content: $0).aspectRatio(2/3, contentMode: .fit)
                         }
                     }
@@ -68,7 +71,7 @@ struct ContentView: View {
                 emojis = foodEmojis.shuffled()
             } label: {
                 VStack {
-                    Image(systemName: "car.fill").font(.largeTitle)
+                    Image(systemName: "bag.fill").font(.largeTitle)
                     Text("Food").font(.footnote)
                 }
             }
@@ -81,7 +84,7 @@ struct ContentView: View {
                 emojis = animalEmojis.shuffled()
             } label: {
                 VStack {
-                    Image(systemName: "car.fill").font(.largeTitle)
+                    Image(systemName: "hare.fill").font(.largeTitle)
                     Text("Animals").font(.footnote)
                 }
             }
