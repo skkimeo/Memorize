@@ -8,20 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    var vechicleEmojis = ["🚙", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛",
-                          "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶",
-                          "🛥", "🚞", "🚤", "🚲", "🚡", "🚕", "🚟", "🚃"]
-    var foodEmojis = ["🍔"]
-    var aminalEmojis = ["🐶"]
+    let vehicleEmojis = ["🚙", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛",
+                      "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶",
+                      "🛥", "🚞", "🚤", "🚲", "🚡", "🚕", "🚟", "🚃"]
     
-    @State var emojiCount = 24
+    var animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"]
+    
+    var foodEmojis = ["🍔", "🥐", "🍕", "🥗", "🥟", "🍣", "🍪", "🍚",
+                      "🍝", "🥙", "🍭", "🍤", "🥞", "🍦", "🍛", "🍗"]
+    
+    @State var emojis = ["🚙", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛",
+                         "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶",
+                         "🛥", "🚞", "🚤", "🚲", "🚡", "🚕", "🚟", "🚃"]
     
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                        ForEach(vechicleEmojis[0..<emojiCount], id: \.self) {
+                        ForEach(emojis[0..<emojis.count], id: \.self) {
                             CardView(content: $0).aspectRatio(2/3, contentMode: .fit)
                         }
                     }
@@ -30,11 +35,11 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    ThemeButton(name: "Vehicles", icon: "car.fill")
+                    vehicleButton
                     Spacer()
-                    ThemeButton(name: "Food", icon: "car.fill") // fork.knife
+                    foodButton // fork.knife
                     Spacer()
-                    ThemeButton(name: "Animals", icon: "car.fill") // pawprint.fill
+                    animalButton // pawprint.fill
                     Spacer()
                 }
                 .padding(.top)
@@ -43,20 +48,41 @@ struct ContentView: View {
             .navigationTitle("Memorize!")
         }
     }
-}
-
-struct ThemeButton: View {
-    var name: String
-    var icon: String
     
-    var body: some View {
+    var vehicleButton: some View {
         VStack {
             Button {
-                //some kind of action(shuffle on click)
+                emojis = vehicleEmojis
             } label: {
                 VStack {
-                    Image(systemName: icon).font(.largeTitle)
-                    Text(name).font(.footnote)
+                    Image(systemName: "car.fill").font(.largeTitle)
+                    Text("Vehicles").font(.footnote)
+                }
+            }
+        }
+    }
+    
+    var foodButton: some View {
+        VStack {
+            Button {
+                emojis = foodEmojis
+            } label: {
+                VStack {
+                    Image(systemName: "car.fill").font(.largeTitle)
+                    Text("Food").font(.footnote)
+                }
+            }
+        }
+    }
+    
+    var animalButton: some View {
+        VStack {
+            Button {
+                emojis = animalEmojis
+            } label: {
+                VStack {
+                    Image(systemName: "car.fill").font(.largeTitle)
+                    Text("Animals").font(.footnote)
                 }
             }
         }
