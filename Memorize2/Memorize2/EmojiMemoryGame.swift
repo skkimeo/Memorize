@@ -29,7 +29,7 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     static func createMemoryGame() -> MemoryGame<String> {
-        let chosenTheme = themes.shuffled()[0]
+        let chosenTheme = themes.randomElement()!
         return MemoryGame(numberOfPairsOfCards: chosenTheme.numberOfPairsOfCards) { chosenTheme.emojis[$0] }
     }
     
@@ -45,4 +45,7 @@ class EmojiMemoryGame: ObservableObject {
         model.choose(card)
     }
     
+    func startNewGame() {
+        model = EmojiMemoryGame.createMemoryGame()
+    }
 }
