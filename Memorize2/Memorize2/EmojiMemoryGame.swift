@@ -8,10 +8,29 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    static let emojis = ["🚗", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛", "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶", "🛥", "🚞", "🚟", "🚃"]
+    static var vehicleEmojis = ["🚗", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛", "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶", "🛥", "🚞", "🚟", "🚃"]
+    static var animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐵"]
+    static var foodEmojis = ["🍔", "🥐", "🍕", "🥗", "🥟", "🍣", "🍪", "🍚", "🍝", "🥙", "🍭", "🍤", "🥞", "🍦", "🍛", "🍗"]
+    static var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎"]
+    static var sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏉", "🥏", "🏐", "🎱", "🏓", "🏸", "🏒", "🥊", "🚴‍♂️", "🏊", "🧗‍♀️", "🤺", "🏇", "🏋️‍♀️", "⛸", "⛷", "🏄", "🤼"]
+    static var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️", "💨", "🌤", "⛈", "🌫"]
+
+    static var themes: [Theme] {
+        var themes = [Theme]()
+        var numberOfPairsOfCards = 9
+        var color = "red"
+        themes.append(Theme(name: "Vehicles", emojis: vehicleEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        themes.append(Theme(name: "Animals", emojis: animalEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        themes.append(Theme(name: "Food", emojis: foodEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        themes.append(Theme(name: "Hearts", emojis: heartEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        themes.append(Theme(name: "Sports", emojis: sportsEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        themes.append(Theme(name: "Weather", emojis: weatherEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
+        return themes
+    }
     
     static func createMemoryGame() -> MemoryGame<String> {
-        MemoryGame(numberOfPairsOfCards: 4) { emojis[$0] }
+        let chosenTheme = themes.shuffled()[0]
+        return MemoryGame(numberOfPairsOfCards: chosenTheme.numberOfPairsOfCards) { chosenTheme.emojis[$0] }
     }
     
     @Published private var model = createMemoryGame()

@@ -49,3 +49,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var id: Int
     }
 }
+
+struct Theme {
+    let name: String
+    let emojis: [String]
+    let numberOfPairsOfCards: Int
+    let cardColor: String // type of color?
+}
