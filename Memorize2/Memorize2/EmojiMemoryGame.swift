@@ -11,14 +11,14 @@ class EmojiMemoryGame: ObservableObject {
     static var vehicleEmojis = ["🚗", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛", "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶", "🛥", "🚞", "🚟", "🚃"]
     static var animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐵"]
     static var foodEmojis = ["🍔", "🥐", "🍕", "🥗", "🥟", "🍣", "🍪", "🍚", "🍝", "🥙", "🍭", "🍤", "🥞", "🍦", "🍛", "🍗"]
-    static var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎"]
+    static var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜"]
     static var sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏉", "🥏", "🏐", "🎱", "🏓", "🏸", "🏒", "🥊", "🚴‍♂️", "🏊", "🧗‍♀️", "🤺", "🏇", "🏋️‍♀️", "⛸", "⛷", "🏄", "🤼"]
-    static var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️", "💨", "🌤", "⛈", "🌫"]
+    static var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️"]
 
     static var themes: [Theme] {
         var themes = [Theme]()
-        var numberOfPairsOfCards = 9
-        var color = "red"
+        let numberOfPairsOfCards = 8
+        let color = "red"  // need to have random color  mechanism
         themes.append(Theme(name: "Vehicles", emojis: vehicleEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
         themes.append(Theme(name: "Animals", emojis: animalEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
         themes.append(Theme(name: "Food", emojis: foodEmojis.shuffled(), numberOfPairsOfCards: numberOfPairsOfCards, cardColor: color))
@@ -29,7 +29,10 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     static func createMemoryGame() -> MemoryGame<String> {
-        let chosenTheme = themes.randomElement()!
+        var chosenTheme = themes.randomElement()!
+        if chosenTheme.emojis.count < chosenTheme.numberOfPairsOfCards {
+            chosenTheme.numberOfPairsOfCards = chosenTheme.emojis.count
+        }
         return MemoryGame(numberOfPairsOfCards: chosenTheme.numberOfPairsOfCards) { chosenTheme.emojis[$0] }
     }
     
@@ -39,6 +42,9 @@ class EmojiMemoryGame: ObservableObject {
         model.cards
     }
     
+    var score: Int {
+        model.score
+    }
     // MARK: - Intent(s)
     
     func choose(_ card: MemoryGame<String>.Card) {

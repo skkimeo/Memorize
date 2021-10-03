@@ -12,27 +12,32 @@ struct ContentView: View {
     static var red = Color.blue
     
     var body: some View {
-        VStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(viewModel.cards) { card in
-                        CardView(card: card)
-                            .aspectRatio(2/3, contentMode: .fit)
-                            .onTapGesture {
-                                viewModel.choose(card)
-                            }
+        NavigationView {
+            VStack {
+                Text("score: \(viewModel.score)")
+                    .padding(.bottom) // modelView.score
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                        ForEach(viewModel.cards) { card in
+                            CardView(card: card)
+                                .aspectRatio(2/3, contentMode: .fit)
+                                .onTapGesture {
+                                    viewModel.choose(card)
+                                }
+                        }
                     }
                 }
+                .foregroundColor(.red)
+                
+                Button {
+                    viewModel.startNewGame()
+                } label: {
+                    Text("New Game").font(.largeTitle)
+                }
             }
-            .foregroundColor(.red)
-            
-            Button {
-                viewModel.startNewGame()
-            } label: {
-                Text("New Game")
-            }
+            .padding()
+            .navigationTitle("Memorize theme!") // viewModel.theme
         }
-        .padding()
     }
 }
 
