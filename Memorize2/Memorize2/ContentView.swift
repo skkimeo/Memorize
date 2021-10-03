@@ -15,7 +15,6 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 Text("score: \(viewModel.score)")
-                    .padding(.bottom) // modelView.score
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                         ForEach(viewModel.cards) { card in
@@ -36,7 +35,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-            .navigationTitle("Memorize theme!") // viewModel.theme
+            .navigationTitle("Memorize \(viewModel.chosenTheme.name)!") // viewModel.theme
         }
     }
 }

@@ -14,6 +14,8 @@ class EmojiMemoryGame: ObservableObject {
     static var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜"]
     static var sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏉", "🥏", "🏐", "🎱", "🏓", "🏸", "🏒", "🥊", "🚴‍♂️", "🏊", "🧗‍♀️", "🤺", "🏇", "🏋️‍♀️", "⛸", "⛷", "🏄", "🤼"]
     static var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️"]
+    
+    //color: black, gray, red, green, blue, orange, yellow, pink, purple
 
     static var themes: [Theme] {
         var themes = [Theme]()
@@ -28,15 +30,25 @@ class EmojiMemoryGame: ObservableObject {
         return themes
     }
     
-    static func createMemoryGame() -> MemoryGame<String> {
-        var chosenTheme = themes.randomElement()!
+    static func createMemoryGame(of chosenTheme: Theme) -> MemoryGame<String> {
+        var numberOfPairsOfCards = chosenTheme.numberOfPairsOfCards
         if chosenTheme.emojis.count < chosenTheme.numberOfPairsOfCards {
-            chosenTheme.numberOfPairsOfCards = chosenTheme.emojis.count
+            numberOfPairsOfCards = chosenTheme.emojis.count
         }
-        return MemoryGame(numberOfPairsOfCards: chosenTheme.numberOfPairsOfCards) { chosenTheme.emojis[$0] }
+        return MemoryGame(numberOfPairsOfCards: numberOfPairsOfCards) { chosenTheme.emojis[$0] }
     }
     
-    @Published private var model = createMemoryGame()
+    var chosenTheme: Theme
+    @Published private var model: MemoryGame<String>
+    
+    static func choseTheme() -> Theme {
+        EmojiMemoryGame.themes.randomElement()!
+    }
+    
+    init() {
+        chosenTheme = EmojiMemoryGame.choseTheme()
+        model = EmojiMemoryGame.createMemoryGame(of: chosenTheme)
+    }
     
     var cards: [MemoryGame<String>.Card] {
         model.cards
@@ -52,6 +64,7 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     func startNewGame() {
-        model = EmojiMemoryGame.createMemoryGame()
+        chosenTheme = EmojiMemoryGame.choseTheme()
+        model = EmojiMemoryGame.createMemoryGame(of: chosenTheme )
     }
 }
