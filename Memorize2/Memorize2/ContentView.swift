@@ -53,6 +53,7 @@ struct CardView: View {
                 shape.opacity(0)
             } else {
                 shape.fill()
+                
             }
         }
     }
