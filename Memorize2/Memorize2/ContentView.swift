@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
-    static var red = Color.blue
     
     var body: some View {
         NavigationView {
@@ -26,7 +25,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                .foregroundColor(.red)
+                .foregroundColor(viewModel.chosenColor)
                 
                 Button {
                     viewModel.startNewGame()
@@ -35,7 +34,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-            .navigationTitle("Memorize \(viewModel.chosenTheme.name)!") // viewModel.theme
+            .navigationTitle("Memorize \(viewModel.chosenTheme.name)!")
         }
     }
 }
