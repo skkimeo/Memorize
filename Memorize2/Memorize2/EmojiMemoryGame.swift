@@ -8,14 +8,14 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    static var vehicleEmojis = ["🚗", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛", "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶", "🛥", "🚞", "🚟", "🚃"]
-    static var animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐵"]
-    static var foodEmojis = ["🍔", "🥐", "🍕", "🥗", "🥟", "🍣", "🍪", "🍚", "🍝", "🥙", "🍭", "🍤", "🥞", "🍦", "🍛", "🍗"]
-    static var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜"]
-    static var sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏉", "🥏", "🏐", "🎱", "🏓", "🏸", "🏒", "🥊", "🚴‍♂️", "🏊", "🧗‍♀️", "🤺", "🏇", "🏋️‍♀️", "⛸", "⛷", "🏄", "🤼"]
-    static var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️"]
+    static private var vehicleEmojis = ["🚗", "🛴", "✈️", "🛵", "⛵️", "🚎", "🚐", "🚛", "🛻", "🏎", "🚂", "🚊", "🚀", "🚁", "🚢", "🛶", "🛥", "🚞", "🚟", "🚃"]
+    static private var animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐵"]
+    static private var foodEmojis = ["🍔", "🥐", "🍕", "🥗", "🥟", "🍣", "🍪", "🍚", "🍝", "🥙", "🍭", "🍤", "🥞", "🍦", "🍛", "🍗"]
+    static private var heartEmojis = ["❤️", "🧡", "💛", "💚", "💙", "💜"]
+    static private var sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏉", "🥏", "🏐", "🎱", "🏓", "🏸", "🏒", "🥊", "🚴‍♂️", "🏊", "🧗‍♀️", "🤺", "🏇", "🏋️‍♀️", "⛸", "⛷", "🏄", "🤼"]
+    static private var weatherEmojis = ["☀️", "🌪", "☁️", "☔️", "❄️"]
     
-    static let colors = ["black", "gray", "red", "green", "blue", "orange",
+    static private let colors = ["black", "gray", "red", "green", "blue", "orange",
     "yellow", "pink", "purple", "fushia", "beige", "gold"]
     
     static func getColor(_ chosenColor: String) -> Color {
@@ -72,8 +72,8 @@ class EmojiMemoryGame: ObservableObject {
         return MemoryGame(numberOfPairsOfCards: numberOfPairsOfCards) { chosenTheme.emojis[$0] }
     }
     
-    var chosenTheme: Theme
-    var chosenColor: Color?
+    private(set) var chosenTheme: Theme
+    private(set) var chosenColor: Color?
     @Published private var model: MemoryGame<String>
     
     static func choseTheme() -> Theme {
