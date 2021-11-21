@@ -21,8 +21,9 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
-    init() {
-        chosenTheme = Theme(name: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange")
+    init(theme: Theme) {
+        chosenTheme = theme
+//        chosenTheme = Theme(name: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange", id: 0)
         chosenTheme.emojis = chosenTheme.emojis.shuffled().reduce(into: "") { sofar, element in
             sofar.append(element)
         }

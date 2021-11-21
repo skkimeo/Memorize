@@ -16,6 +16,7 @@
 		A47A47B32749E6C400AE9FA9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47B22749E6C400AE9FA9 /* Theme.swift */; };
 		A47A47B82749E9B500AE9FA9 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47B72749E9B500AE9FA9 /* UtilityExtensions.swift */; };
 		A47A47BA2749EDE800AE9FA9 /* ThemeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47B92749EDE800AE9FA9 /* ThemeStore.swift */; };
+		A47A47C2274A09C700AE9FA9 /* ThemeChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47C1274A09C700AE9FA9 /* ThemeChooser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		A47A47B22749E6C400AE9FA9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		A47A47B72749E9B500AE9FA9 /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		A47A47B92749EDE800AE9FA9 /* ThemeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
+		A47A47C1274A09C700AE9FA9 /* ThemeChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,9 +103,26 @@
 		A47A47B62749E6F200AE9FA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A47A47A227495EA300AE9FA9 /* EmojiMemoryGameView.swift */,
+				A47A47C0274A09A900AE9FA9 /* Themes */,
+				A47A47BF274A099600AE9FA9 /* Game */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		A47A47BF274A099600AE9FA9 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				A47A47A227495EA300AE9FA9 /* EmojiMemoryGameView.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		A47A47C0274A09A900AE9FA9 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				A47A47C1274A09C700AE9FA9 /* ThemeChooser.swift */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +198,7 @@
 				A47A47AF27495F1000AE9FA9 /* MemoryGame.swift in Sources */,
 				A47A47A327495EA300AE9FA9 /* EmojiMemoryGameView.swift in Sources */,
 				A47A47B82749E9B500AE9FA9 /* UtilityExtensions.swift in Sources */,
+				A47A47C2274A09C700AE9FA9 /* ThemeChooser.swift in Sources */,
 				A47A47B32749E6C400AE9FA9 /* Theme.swift in Sources */,
 				A47A47A127495EA300AE9FA9 /* Memorize3_0App.swift in Sources */,
 				A47A47B127495F3200AE9FA9 /* EmojiMemoryGame.swift in Sources */,

@@ -9,33 +9,31 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
-    // C
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("score: \(game.score)")
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                        ForEach(game.cards) { card in
-                            CardView(card: card)
-                                .aspectRatio(2/3, contentMode: .fit)
-                                .onTapGesture {
-                                    game.choose(card)
-                                }
-                        }
+        VStack {
+            Text("score: \(game.score)")
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                    ForEach(game.cards) { card in
+                        CardView(card: card)
+                            .aspectRatio(2/3, contentMode: .fit)
+                            .onTapGesture {
+                                game.choose(card)
+                            }
                     }
                 }
-                .foregroundColor(.red)
-                
-                Button {
-                    game.startNewGame()
-                } label: {
-                    Text("New Game").font(.largeTitle)
-                }
             }
-            .padding()
-            .navigationTitle("Memorize \(game.chosenTheme.name)!")
+            .foregroundColor(.red)
+            
+            Button {
+                game.startNewGame()
+            } label: {
+                Text("New Game").font(.largeTitle)
+            }
         }
+        .padding()
+        .navigationTitle("Memorize \(game.chosenTheme.name)!")
     }
 }
 
@@ -86,7 +84,7 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let game = EmojiMemoryGame()
+        let game = EmojiMemoryGame(theme: ThemeStore(named: "default").themes[0])
         EmojiMemoryGameView(game: game)
             .preferredColorScheme(.dark)
         EmojiMemoryGameView(game: game)
