@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-class EmojiMemoryGame: ObservableObject {
+class EmojiMemoryGame: ObservableObject, Equatable {
+    static func == (lhs: EmojiMemoryGame, rhs: EmojiMemoryGame) -> Bool {
+        lhs.chosenTheme == rhs.chosenTheme
+    }
+    
     
     @Published private var model: MemoryGame<String>
 

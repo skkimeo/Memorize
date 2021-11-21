@@ -8,47 +8,41 @@
 import SwiftUI
 
 struct ThemeChooser: View {
-    @EnvironmentObject var store: ThemeStore
-//    @ObservedObject var store: ThemeStore
-    
-    @State private var games = [Theme: EmojiMemoryGame]() {
-        didSet {
-            print("-------------")
-            print("Vthemes \(oldValue)")
-            print("Vthemes \(games)")
-//            print("Vthemes \(self.games[store.theme(at: 0)]!)")
-            print("-------------")
+    @EnvironmentObject var store: ThemeStore {
+        willSet {
+            updateGames(from: newValue.themes)
         }
     }
     
-//    init(store: ThemeStore) {
-//        print("HI")
-//        self.store = store
-//        updateGames()
-//    }
+    @State private var games = [Int: EmojiMemoryGame]() {
+        didSet {
+
+        }
+    }
     
-    private func updateGames() {
-        var games = [Theme: EmojiMemoryGame]()
+    
+    private func updateGames(from: [Theme]) {
+        var games = [Int: EmojiMemoryGame]()
         store.themes.forEach { theme in
-            games.updateValue(EmojiMemoryGame(theme: theme), forKey: theme)
+            games.updateValue(EmojiMemoryGame(theme: theme), forKey: theme.id)
         }
         self.games = games
-        print("++++++++++++++++")
-        print(self.games)
-//        print("Vthemes \(self.games[store.theme(at: 0)]!)")
-        print("++++++++++++++++")
     }
     
-    // is this the right place...? gonna go away with heap...
-    //    @StateObject var game: EmojiMemoryGame()
     @State private var editMode: EditMode = .inactive
     
     
     private func getdestination(for theme: Theme) -> some View{
-        
-        print("Vtssss \(self.games)")
-        return EmojiMemoryGameView(game: games[theme]!)
-//        return EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))
+//        print("vts \(games)")
+        print("vts----------")
+//        updateGames()
+        print("vts \(theme)")
+        print("vts \(store.themes.contains(theme))")
+//        if games[theme.id] == nil {
+//            games.updateValue(EmojiMemoryGame(theme: theme), forKey: theme.id)
+////            return
+//        }
+        return EmojiMemoryGameView(game: games[theme.id]!)
     }
     
     var body: some View {
@@ -72,6 +66,7 @@ struct ThemeChooser: View {
             .listStyle(.inset)
             .navigationTitle("Memorize")
             .sheet(item: $themeToEdit) {
+                print("vtennnnnd")
                 removeNewThemeOnDismissIfInvalid()
             } content: { theme in
                 ThemeEditor(theme: $store.themes[theme])
@@ -86,7 +81,10 @@ struct ThemeChooser: View {
             }
         }
         .stackNavigationViewStyleIfiPad()
-        .onAppear { updateGames() }
+        .onAppear { updateGames(from: store.themes) }
+//        .onChange(of: store.themes) { _ in
+//            updateGames()
+//        }
     }
     
     @State private var themeToEdit: Theme?
