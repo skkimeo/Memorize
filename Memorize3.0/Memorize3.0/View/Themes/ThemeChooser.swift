@@ -45,6 +45,7 @@ struct ThemeChooser: View {
             }
             .environment(\.editMode, $editMode)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     @State private var themeToEdit: Theme?
