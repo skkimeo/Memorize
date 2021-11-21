@@ -25,16 +25,22 @@ struct EmojiMemoryGameView: View {
                 }
             }
             .foregroundColor(.red)
-            
-            Button {
-                game.startNewGame()
-            } label: {
-                Text("New Game").font(.largeTitle)
-            }
         }
         .padding()
-        .navigationTitle("Memorize \(game.chosenTheme.name)!")
+        .navigationTitle("\(game.chosenTheme.name)!")
+        .toolbar {
+            newGameButton
+        }
     }
+    
+    var newGameButton: some View {
+        Button {
+            game.startNewGame()
+        } label: {
+            Text("New Game")
+        }
+    }
+    
 }
 
 struct CardView: View {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A453A66F274A21E600CC3A3B /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453A66E274A21E600CC3A3B /* ThemeEditor.swift */; };
 		A47A47A127495EA300AE9FA9 /* Memorize3_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47A027495EA300AE9FA9 /* Memorize3_0App.swift */; };
 		A47A47A327495EA300AE9FA9 /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47A47A227495EA300AE9FA9 /* EmojiMemoryGameView.swift */; };
 		A47A47A527495EA500AE9FA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A47A47A427495EA500AE9FA9 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A453A66E274A21E600CC3A3B /* ThemeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEditor.swift; sourceTree = "<group>"; };
 		A47A479D27495EA300AE9FA9 /* Memorize3.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize3.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A47A47A027495EA300AE9FA9 /* Memorize3_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memorize3_0App.swift; sourceTree = "<group>"; };
 		A47A47A227495EA300AE9FA9 /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		A47A47C0274A09A900AE9FA9 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				A453A66E274A21E600CC3A3B /* ThemeEditor.swift */,
 				A47A47C1274A09C700AE9FA9 /* ThemeChooser.swift */,
 			);
 			path = Themes;
@@ -197,6 +200,7 @@
 			files = (
 				A47A47AF27495F1000AE9FA9 /* MemoryGame.swift in Sources */,
 				A47A47A327495EA300AE9FA9 /* EmojiMemoryGameView.swift in Sources */,
+				A453A66F274A21E600CC3A3B /* ThemeEditor.swift in Sources */,
 				A47A47B82749E9B500AE9FA9 /* UtilityExtensions.swift in Sources */,
 				A47A47C2274A09C700AE9FA9 /* ThemeChooser.swift in Sources */,
 				A47A47B32749E6C400AE9FA9 /* Theme.swift in Sources */,

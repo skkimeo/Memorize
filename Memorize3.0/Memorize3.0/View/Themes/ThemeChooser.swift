@@ -19,7 +19,7 @@ struct ThemeChooser: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(store.themes) { theme in
+                ForEach(store.themes.filter { $0.emojis.count > 1 }) { theme in
                     NavigationLink(destination: EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))) {
                         themeRow(for: theme)
                     }
@@ -35,13 +35,17 @@ struct ThemeChooser: View {
             .listStyle(.inset)
             .navigationTitle("Memorize")
             .sheet(item: $themeToEdit) { theme in
-//                ThemeEditor()
-                Text("Gonna be replaced with ThemeEditor!")
+                ThemeEditor(theme: $store.themes[theme])
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) { //, content: <#T##() -> _#>)
-                    Image(systemName: "plus")
-                        .foregroundColor(.blue)
+                ToolbarItem(placement: .navigationBarLeading) { //, content:
+                    Button {
+                        store.insertTheme(named: "New", cardColor: "red")
+                        themeToEdit = store.themes.first
+                    } label : {
+                        Image(systemName: "plus")
+                            .foregroundColor(.blue)
+                    }
                 }
                 ToolbarItem { EditButton() }
             }

@@ -66,6 +66,10 @@ class ThemeStore: ObservableObject {
         
     }
     
+    func getUniqueId() -> Int {
+        (themes.max(by: { $0.id < $1.id })?.id ?? 0) + 1
+    }
+    
     @discardableResult
     func removeTheme(at index: Int) -> Int {
         if themes.count > 1, themes.indices.contains(index) {
