@@ -35,11 +35,7 @@ struct ThemeChooser: View {
             .listStyle(.inset)
             .navigationTitle("Memorize")
             .sheet(item: $themeToEdit) {
-                if let newButInvalidTheme = store.themes.first {
-                    if newButInvalidTheme.emojis.count < 2 {
-                        store.removeTheme(at: 0)
-                    }
-                }
+                removeNewThemeOnDismissIfInvalid()
             } content: { theme in
                 ThemeEditor(theme: $store.themes[theme])
             }
@@ -53,6 +49,14 @@ struct ThemeChooser: View {
     
     @State private var themeToEdit: Theme?
     
+    private func removeNewThemeOnDismissIfInvalid() {
+        if let newButInvalidTheme = store.themes.first {
+            if newButInvalidTheme.emojis.count < 2 {
+                store.removeTheme(at: 0)
+            }
+        }
+    }
+    
     private func themeRow(for theme: Theme) -> some View {
         VStack(alignment: .leading) {
             Text(theme.name)
@@ -64,9 +68,10 @@ struct ThemeChooser: View {
                 if theme.numberOfPairsOfCards == theme.emojis.count {
                     Text("All of \(theme.emojis)")
                 } else {
-                    Text("\(String(theme.numberOfPairsOfCards)) pairs from \(theme.emojis)" )
+                    Text("\(String(theme.numberOfPairsOfCards)) pairs from \(theme.emojis)")
                 }
             }
+            .lineLimit(1)
         }
     }
     

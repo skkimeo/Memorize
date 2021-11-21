@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ThemeEditor: View {
     @Binding var theme: Theme
-    @EnvironmentObject var store: ThemeStore
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
@@ -24,6 +23,7 @@ struct ThemeEditor: View {
             .navigationTitle("\(name)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                //cancelButton
                 doneButton
             }
         }

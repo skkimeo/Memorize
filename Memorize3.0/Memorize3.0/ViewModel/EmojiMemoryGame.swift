@@ -13,8 +13,14 @@ class EmojiMemoryGame: ObservableObject {
 
     // link this with PaletteChooser later
     // do i need to make this published..?
-    var chosenTheme: Theme
-//    Theme(name: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange")
+    var chosenTheme: Theme {
+        didSet {
+            if chosenTheme != oldValue {
+                startNewGame()
+            }
+            
+        }
+    }
     
     static func createMemoryGame(of theme: Theme) -> MemoryGame<String> {
         return MemoryGame(numberOfPairsOfCards: theme.numberOfPairsOfCards) { index in
