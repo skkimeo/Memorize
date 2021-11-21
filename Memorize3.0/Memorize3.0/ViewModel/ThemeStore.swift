@@ -10,10 +10,11 @@ import SwiftUI
 class ThemeStore: ObservableObject {
     
     let name: String
+    
     @Published var themes = [Theme]() {
         didSet {
+            print("current number of themes: \(themes.count)")
             storeInUserDefaults()
-            print("current palettes succefully saved!")
         }
     }
     
@@ -31,7 +32,9 @@ class ThemeStore: ObservableObject {
         } else {
             print("Themes Successfully retrieved from UserDefaults!")
         }
+//        themes = []
     }
+
     
     // MARK: - Save & Load Themes
     
@@ -40,7 +43,6 @@ class ThemeStore: ObservableObject {
     }
     
     private func storeInUserDefaults() {
-        let themes = themes.filter { $0.emojis.count >= 2 }
         UserDefaults.standard.set(try? JSONEncoder().encode(themes), forKey: userDefaultsKey)
     }
     
@@ -67,15 +69,9 @@ class ThemeStore: ObservableObject {
         
     }
     
-    func getUniqueId() -> Int {
-        (themes.max(by: { $0.id < $1.id })?.id ?? 0) + 1
-    }
-    
-    @discardableResult
-    func removeTheme(at index: Int) -> Int {
+    func removeTheme(at index: Int) {
         if themes.count > 1, themes.indices.contains(index) {
             themes.remove(at: index)
         }
-        return index % themes.count
     }
 }

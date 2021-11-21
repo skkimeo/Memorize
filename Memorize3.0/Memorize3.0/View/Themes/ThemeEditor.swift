@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ThemeEditor: View {
     @Binding var theme: Theme
-    
-    @Environment(\.presentationMode) private var presentatioMode
+    @EnvironmentObject var store: ThemeStore
+    @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         NavigationView {
@@ -21,7 +21,7 @@ struct ThemeEditor: View {
                 cardPairSection
                 cardColorSection
             }
-            .navigationTitle("\(theme.name)")
+            .navigationTitle("\(name)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 doneButton
@@ -31,27 +31,45 @@ struct ThemeEditor: View {
     
     private var doneButton: some View {
         Button("Done") {
-            if presentatioMode.wrappedValue.isPresented && theme.emojis.count >= 2 {
-                presentatioMode.wrappedValue.dismiss()
+            if presentationMode.wrappedValue.isPresented && candidateEmojis.count >= 2 {
+                saveAllEdits()
+                presentationMode.wrappedValue.dismiss()
             }
         }
     }
     
+    private func saveAllEdits() {
+        theme.name = name
+        theme.emojis = candidateEmojis
+        theme.numberOfPairsOfCards = min(numberOfPairs, candidateEmojis.count)
+    }
+    
+    @State private var name: String
+    
+    init(theme: Binding<Theme>) {
+        self._theme = theme
+        self._name = State(initialValue: theme.wrappedValue.name)
+        self._candidateEmojis = State(initialValue: theme.wrappedValue.emojis)
+        self._numberOfPairs = State(initialValue: theme.wrappedValue.numberOfPairsOfCards)
+    }
+    
     private var nameSection: some View {
         Section(header: Text("theme name")) {
-            TextField("Theme name", text: $theme.name)
+            TextField("Theme name", text: $name)
         }
     }
+    
+    @State private var candidateEmojis: String
     
     private var removeEmojiSection: some View {
         Section(header: Text("Emojis"), footer: Text("Tap To Remove: More than Two needed!")) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 20))]) {
-                ForEach(theme.emojis.map { String($0) }, id: \.self) { emoji in
+                ForEach(candidateEmojis.map { String($0) }, id: \.self) { emoji in
                     Text(emoji)
                         .onTapGesture {
                             withAnimation {
-                                if theme.emojis.count > 2 {
-                                theme.emojis.removeAll { String($0) == emoji}
+                                if candidateEmojis.count > 2 {
+                                candidateEmojis.removeAll { String($0) == emoji}
                                 }
                             }
                             
@@ -67,23 +85,28 @@ struct ThemeEditor: View {
         Section(header: Text("add Emojis")) {
             TextField("Emojis", text: $emojisToAdd)
                 .onChange(of: emojisToAdd) { emoji in
-                    addEmojis(emoji)
+                    addAsCandidateEmojis(emoji)
                 }
         }
         
     }
     
-    private func addEmojis(_ emojis: String) {
+    private func addAsCandidateEmojis(_ emojis: String) {
         withAnimation {
-            theme.emojis = (emojis + theme.emojis)
+            candidateEmojis = (emojis + candidateEmojis)
                 .filter { $0.isEmoji }
                 .removingDuplicateCharacters
         }
     }
     
+    @State var numberOfPairs: Int
+    
     private var cardPairSection: some View {
         Section(header: Text("Card Count")) {
-            Stepper("\(theme.numberOfPairsOfCards) Pairs", value: $theme.numberOfPairsOfCards, in: theme.emojis.count < 2 ?  2...2 : 2...theme.emojis.count)
+            Stepper("\(numberOfPairs) Pairs", value: $numberOfPairs, in: candidateEmojis.count < 2 ?  2...2 : 2...candidateEmojis.count)
+                .onChange(of: candidateEmojis) { _ in
+                    numberOfPairs = max(2, min(numberOfPairs, candidateEmojis.count))
+                }
         }
     }
     
@@ -102,8 +125,8 @@ struct ThemeEditor: View {
     }
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        ThemeEditor(theme: .constant(ThemeStore(named: "preview").themes[1]))
-    }
-}
+//struct SwiftUIView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ThemeEditor(theme: .constant(ThemeStore(named: "preview").themes[1]))
+//    }
+//}

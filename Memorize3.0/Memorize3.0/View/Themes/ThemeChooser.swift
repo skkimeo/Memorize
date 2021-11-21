@@ -34,19 +34,17 @@ struct ThemeChooser: View {
             }
             .listStyle(.inset)
             .navigationTitle("Memorize")
-            .sheet(item: $themeToEdit) { theme in
+            .sheet(item: $themeToEdit) {
+                if let newButInvalidTheme = store.themes.first {
+                    if newButInvalidTheme.emojis.count < 2 {
+                        store.removeTheme(at: 0)
+                    }
+                }
+            } content: { theme in
                 ThemeEditor(theme: $store.themes[theme])
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) { //, content:
-                    Button {
-                        store.insertTheme(named: "New", cardColor: "red")
-                        themeToEdit = store.themes.first
-                    } label : {
-                        Image(systemName: "plus")
-                            .foregroundColor(.blue)
-                    }
-                }
+                ToolbarItem(placement: .navigationBarLeading) { addThemeButton }
                 ToolbarItem { EditButton() }
             }
             .environment(\.editMode, $editMode)
@@ -77,6 +75,16 @@ struct ThemeChooser: View {
             .onEnded {
                 themeToEdit = store.themes[theme]
             }
+    }
+    
+    private var addThemeButton: some View {
+        Button {
+            store.insertTheme(named: "new", cardColor: "blue")
+            themeToEdit = store.themes.first
+        } label : {
+            Image(systemName: "plus")
+                .foregroundColor(.blue)
+        }
     }
 }
 
