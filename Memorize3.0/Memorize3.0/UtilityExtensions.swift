@@ -108,3 +108,16 @@ extension Character {
         }
     }
 }
+
+
+// MARK: - View
+
+extension View {
+    func stackNavigationViewStyleIfiPad() -> some View {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return AnyView(self.navigationViewStyle(StackNavigationViewStyle()))
+        } else {
+            return AnyView(self)
+        }
+    }
+}

@@ -9,18 +9,55 @@ import SwiftUI
 
 struct ThemeChooser: View {
     @EnvironmentObject var store: ThemeStore
+//    @ObservedObject var store: ThemeStore
     
-//    @State var games: [Theme: EmojiMemoryGame]
+    @State private var games = [Theme: EmojiMemoryGame]() {
+        didSet {
+            print("-------------")
+            print("Vthemes \(oldValue)")
+            print("Vthemes \(games)")
+//            print("Vthemes \(self.games[store.theme(at: 0)]!)")
+            print("-------------")
+        }
+    }
+    
+//    init(store: ThemeStore) {
+//        print("HI")
+//        self.store = store
+//        updateGames()
+//    }
+    
+    private func updateGames() {
+        var games = [Theme: EmojiMemoryGame]()
+        store.themes.forEach { theme in
+            games.updateValue(EmojiMemoryGame(theme: theme), forKey: theme)
+        }
+        self.games = games
+        print("++++++++++++++++")
+        print(self.games)
+//        print("Vthemes \(self.games[store.theme(at: 0)]!)")
+        print("++++++++++++++++")
+    }
     
     // is this the right place...? gonna go away with heap...
     //    @StateObject var game: EmojiMemoryGame()
-    @State var editMode: EditMode = .inactive
+    @State private var editMode: EditMode = .inactive
+    
+    
+    private func getdestination(for theme: Theme) -> some View{
+        
+        print("Vtssss \(self.games)")
+        return EmojiMemoryGameView(game: games[theme]!)
+//        return EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))
+    }
     
     var body: some View {
         NavigationView {
+            if !games.isEmpty {
             List {
                 ForEach(store.themes.filter { $0.emojis.count > 1 }) { theme in
-                    NavigationLink(destination: EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))) {
+//                    NavigationLink(destination: EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))) {
+                    NavigationLink(destination: getdestination(for: theme)) {
                         themeRow(for: theme)
                     }
                     .gesture(editMode == .active ? tapToOpenThemeEditor(for: theme) : nil)
@@ -44,8 +81,12 @@ struct ThemeChooser: View {
                 ToolbarItem { EditButton() }
             }
             .environment(\.editMode, $editMode)
+            } else {
+                
+            }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .stackNavigationViewStyleIfiPad()
+        .onAppear { updateGames() }
     }
     
     @State private var themeToEdit: Theme?

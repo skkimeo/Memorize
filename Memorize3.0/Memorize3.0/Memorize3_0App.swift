@@ -13,6 +13,7 @@ struct Memorize3_0App: App {
     
     var body: some Scene {
         WindowGroup {
+//            ThemeChooser(store: themeStore)
             ThemeChooser()
                 .environmentObject(themeStore)
         }
