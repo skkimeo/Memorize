@@ -13,12 +13,13 @@ class ThemeStore: ObservableObject {
     @Published var themes = [Theme]() {
         didSet {
             storeInUserDefaults()
+            print("current palettes succefully saved!")
         }
     }
     
     init(named name: String) {
         self.name = name
-//        loadThemes()
+        restoreFromUserDefaults()
         if themes.isEmpty {
             print("Uh-oh empty themes...inserting defaults...")
             insertTheme(named: "Vehicles", emojis: "🚗🛴✈️🛵⛵️🚎🚐🚛🚂🚊🚀🚁🚢🛶🛥🚞🚟🚃", numberOfPairsOfCards: 5, cardColor: "red")
