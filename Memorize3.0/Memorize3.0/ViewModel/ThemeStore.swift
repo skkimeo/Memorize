@@ -8,40 +8,68 @@
 import SwiftUI
 
 class ThemeStore: ObservableObject {
-    @Published var themes = [Theme]()
     
-    init() {
-        loadThemes()
+    let name: String
+    @Published var themes = [Theme]() {
+        didSet {
+            storeInUserDefaults()
+        }
+    }
+    
+    init(named name: String) {
+        self.name = name
+//        loadThemes()
         if themes.isEmpty {
-            themes.append(Theme(name: "Vehicles", emojis: "🚗🛴✈️🛵⛵️🚎🚐🚛🚂🚊🚀🚁🚢🛶🛥🚞🚟🚃", numberOfPairsOfCards: 5, cardColor: "red"))
-            themes.append(Theme(name: "AnimalFaces", emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐷🐵", numberOfPairsOfCards: 8, cardColor: "green"))
-            themes.append(Theme(name: "Food", emojis: "🍔🥐🍕🥗🥟🍣🍪🍚🍝🥙🍭🍤🥞🍦🍛🍗", numberOfPairsOfCards: 10, cardColor: "blue"))
-            themes.append(Theme(name: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange"))
-            themes.append(Theme(name: "Sprots", emojis: "⚽️🏀🏈⚾️🎾🏉🥏🏐🎱🏓🏸🏒🥊🚴‍♂️🏊🧗‍♀️🤺🏇🏋️‍♀️⛸⛷🏄🤼", numberOfPairsOfCards: 12, cardColor: "gray"))
-            themes.append(Theme(name: "Weather", emojis: "☀️🌪☁️☔️❄️", numberOfPairsOfCards: 3, cardColor: "pink"))
+            print("Uh-oh empty themes...inserting defaults...")
+            insertTheme(named: "Vehicles", emojis: "🚗🛴✈️🛵⛵️🚎🚐🚛🚂🚊🚀🚁🚢🛶🛥🚞🚟🚃", numberOfPairsOfCards: 5, cardColor: "red")
+            insertTheme(named: "AnimalFaces", emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐷🐵", numberOfPairsOfCards: 8, cardColor: "green")
+            insertTheme(named: "Food", emojis: "🍔🥐🍕🥗🥟🍣🍪🍚🍝🥙🍭🍤🥞🍦🍛🍗", numberOfPairsOfCards: 10, cardColor: "blue")
+            insertTheme(named: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange")
+            insertTheme(named: "Sprots", emojis: "⚽️🏀🏈⚾️🎾🏉🥏🏐🎱🏓🏸🏒🥊🚴‍♂️🏊🧗‍♀️🤺🏇🏋️‍♀️⛸⛷🏄🤼", numberOfPairsOfCards: 12, cardColor: "gray")
+            insertTheme(named: "Weather", emojis: "☀️🌪☁️☔️❄️", numberOfPairsOfCards: 3, cardColor: "pink")
+        } else {
+            print("Themes Successfully retrieved from UserDefaults!")
         }
     }
     
     // MARK: - Save & Load Themes
     
-    private func saveThemes() {
+    private var userDefaultsKey: String {
+        "ThemeStore" + name
+    }
+    
+    private func storeInUserDefaults() {
+        UserDefaults.standard.set(try? JSONEncoder().encode(themes), forKey: userDefaultsKey)
+    }
+    
+    private func restoreFromUserDefaults() {
+        if let jsonData = UserDefaults.standard.data(forKey: userDefaultsKey),
+           let decodeThemes = try? JSONDecoder().decode([Theme].self, from: jsonData) {
+            themes = decodeThemes
+        }
+    }
+    
+    // MARK: - Intent(s)
+    
+    func theme(at index: Int) -> Theme {
+        let safeIndex = min(max(index, 0), themes.count - 1)
+        return themes[safeIndex]
+    }
+    
+    
+    func insertTheme(named name: String, emojis: String? = nil, numberOfPairsOfCards: Int = 2, cardColor: String, at index: Int = 0) {
+        let unique = (themes.max(by: { $0.id < $1.id })?.id ?? 0) + 1
+        let theme = Theme(name: name, emojis: emojis ?? "", numberOfPairsOfCards: numberOfPairsOfCards, cardColor: cardColor, id: unique)
+        let safeIndex = min(max(index, 0), themes.count)
+        themes.insert(theme, at: safeIndex)
         
     }
     
-    private func loadThemes() {
-        
+    @discardableResult
+    func removeTheme(at index: Int) -> Int {
+        if themes.count > 1, themes.indices.contains(index) {
+            themes.remove(at: index)
+        }
+        return index % themes.count
     }
-    
-    // MARK: - Add and Remove Themes
-    
-    private func addTheme() {
-        
-    }
-    
-    private func removeTheme() {
-        
-    }
-    
-    
-    
 }

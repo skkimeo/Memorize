@@ -12,13 +12,13 @@ struct Theme: Codable, Identifiable {
     var emojis: String
     var numberOfPairsOfCards: Int
     var cardColor: String // type of color?
-    let id: UUID
+    let id: Int
     
-    init(name: String, emojis: String, numberOfPairsOfCards: Int, cardColor: String) {
+    init(name: String, emojis: String, numberOfPairsOfCards: Int, cardColor: String, id: Int) {
         self.name = name
         self.emojis = emojis
         self.numberOfPairsOfCards = max(2, min(numberOfPairsOfCards, emojis.count))
         self.cardColor = cardColor
-        self.id = UUID()
+        self.id = id
     }
 }
