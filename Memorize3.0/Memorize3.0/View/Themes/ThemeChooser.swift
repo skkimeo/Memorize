@@ -26,7 +26,7 @@ struct ThemeChooser: View {
                     .gesture(editMode == .active ? tapToOpenThemeEditor(for: theme) : nil)
                 }
                 .onDelete { indexSet in
-                    store.themes.remove(atOffsets: indexSet)
+                    indexSet.forEach { store.removeTheme(at: $0) }
                 }
                 .onMove { fromOffsets, toOffset in
                     store.themes.move(fromOffsets: fromOffsets, toOffset: toOffset)

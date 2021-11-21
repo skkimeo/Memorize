@@ -10,15 +10,31 @@ import SwiftUI
 struct ThemeEditor: View {
     @Binding var theme: Theme
     
+    @Environment(\.presentationMode) private var presentatioMode
+    
     var body: some View {
-        Form {
-            nameSection
-            removeEmojiSection
-            addEmojiSection
-            cardPairSection
-            cardColorSection
+        NavigationView {
+            Form {
+                nameSection
+                removeEmojiSection
+                addEmojiSection
+                cardPairSection
+                cardColorSection
+            }
+            .navigationTitle("\(theme.name)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                doneButton
+            }
         }
-        .navigationTitle("jo")
+    }
+    
+    private var doneButton: some View {
+        Button("Done") {
+            if presentatioMode.wrappedValue.isPresented && theme.emojis.count >= 2 {
+                presentatioMode.wrappedValue.dismiss()
+            }
+        }
     }
     
     private var nameSection: some View {
@@ -32,6 +48,14 @@ struct ThemeEditor: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 20))]) {
                 ForEach(theme.emojis.map { String($0) }, id: \.self) { emoji in
                     Text(emoji)
+                        .onTapGesture {
+                            withAnimation {
+                                if theme.emojis.count > 2 {
+                                theme.emojis.removeAll { String($0) == emoji}
+                                }
+                            }
+                            
+                        }
                 }
             }
         }

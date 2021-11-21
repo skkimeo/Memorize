@@ -40,6 +40,7 @@ class ThemeStore: ObservableObject {
     }
     
     private func storeInUserDefaults() {
+        let themes = themes.filter { $0.emojis.count >= 2 }
         UserDefaults.standard.set(try? JSONEncoder().encode(themes), forKey: userDefaultsKey)
     }
     
