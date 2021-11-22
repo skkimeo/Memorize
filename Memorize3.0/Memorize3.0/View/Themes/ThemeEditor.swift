@@ -17,6 +17,7 @@ struct ThemeEditor: View {
                 nameSection
                 removeEmojiSection
                 addEmojiSection
+//                emojiHistorySection
                 cardPairSection
                 colorSection
             }
@@ -31,6 +32,24 @@ struct ThemeEditor: View {
         }
     }
     
+//    @State private var removedEmojis: String
+//
+//    private var emojiHistorySection: some View {
+//        Section(header: Text("Removed Emojis")) {
+//            LazyVGrid(columns: [GridItem(.adaptive(minimum: 20))]) {
+//                ForEach(removedEmojis.map {String($0)}, id: \.self) { emoji in
+//                    Text(emoji)
+//                        .onTapGesture {
+//                            addToCandidateEmojis(emoji)
+//                            withAnimation {
+//                                removedEmojis.removeAll { String($0) == emoji }
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//    }
+    
     private var doneButton: some View {
         Button("Done") {
             if presentationMode.wrappedValue.isPresented && candidateEmojis.count >= 2 {
@@ -41,11 +60,18 @@ struct ThemeEditor: View {
     }
     
     private func saveAllEdits() {
+//        theme.removedEmojis = getRemovedEmojis(from: theme.emojis)
         theme.name = name
         theme.emojis = candidateEmojis
         theme.numberOfPairsOfCards = min(numberOfPairs, candidateEmojis.count)
         theme.color = RGBAColor(color: chosenColor)
     }
+    
+//    private func getRemovedEmojis(from oldEmojis: String) -> String {
+//        (oldEmojis.filter { !candidateEmojis.contains($0) } + removedEmojis)
+//        return removedEmojis
+//
+//    }
     
     private var cancelButton: some View {
         Button("Cancel") {
@@ -59,6 +85,7 @@ struct ThemeEditor: View {
         self._theme = theme
         self._name = State(initialValue: theme.wrappedValue.name)
         self._candidateEmojis = State(initialValue: theme.wrappedValue.emojis)
+//        self._removedEmojis = State(initialValue: theme.wrappedValue.removedEmojis)
         self._numberOfPairs = State(initialValue: theme.wrappedValue.numberOfPairsOfCards)
         self._chosenColor = State(initialValue: Color(rgbaColor: theme.wrappedValue.color))
     }
@@ -108,12 +135,12 @@ struct ThemeEditor: View {
         Section(header: Text("add Emojis")) {
             TextField("Emojis", text: $emojisToAdd)
                 .onChange(of: emojisToAdd) { emoji in
-                    addAsCandidateEmojis(emoji)
+                    addToCandidateEmojis(emoji)
                 }
         }
     }
     
-    private func addAsCandidateEmojis(_ emojis: String) {
+    private func addToCandidateEmojis(_ emojis: String) {
         withAnimation {
             candidateEmojis = (emojis + candidateEmojis)
                 .filter { $0.isEmoji }

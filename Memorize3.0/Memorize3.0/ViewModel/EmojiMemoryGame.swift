@@ -12,16 +12,15 @@ class EmojiMemoryGame: ObservableObject {
     var chosenTheme: Theme
     
     static func createMemoryGame(of theme: Theme) -> MemoryGame<String> {
+        let emojis = theme.emojis.map { String($0) }.shuffled()
+        
         return MemoryGame(numberOfPairsOfCards: theme.numberOfPairsOfCards) { index in
-            theme.emojis.map {String($0)}[index]
+            emojis[index]
         }
     }
     
     init(theme: Theme) {
         chosenTheme = theme
-        chosenTheme.emojis = chosenTheme.emojis.shuffled().reduce(into: "") { sofar, element in
-            sofar.append(element)
-        }
         model = EmojiMemoryGame.createMemoryGame(of: chosenTheme)
     }
     
