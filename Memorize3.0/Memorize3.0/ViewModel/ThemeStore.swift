@@ -13,6 +13,7 @@ class ThemeStore: ObservableObject {
     
     @Published var themes = [Theme]() {
         didSet {
+            print("move in store : \(themes)")
             print("current number of themes: \(themes.count)")
             storeInUserDefaults()
         }
