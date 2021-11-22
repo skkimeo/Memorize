@@ -9,7 +9,7 @@ import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String>
-    var chosenTheme: Theme
+    let chosenTheme: Theme
     
     static func createMemoryGame(of theme: Theme) -> MemoryGame<String> {
         let emojis = theme.emojis.map { String($0) }.shuffled()
