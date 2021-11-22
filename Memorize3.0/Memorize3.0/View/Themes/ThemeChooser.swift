@@ -96,7 +96,9 @@ struct ThemeChooser: View {
     }
     
     private func themeRow(for theme: Theme) -> some View {
-        VStack(alignment: .leading) {
+        print("\(theme.name) themeColor: \(theme.color)  \(type(of: Color(rgbaColor: theme.color)))")
+        
+        return VStack(alignment: .leading) {
             Text(theme.name)
                 .foregroundColor(Color(rgbaColor: theme.color))
                 .font(.system(size: 25))

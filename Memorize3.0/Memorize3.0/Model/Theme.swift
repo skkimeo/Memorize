@@ -12,7 +12,6 @@ struct Theme: Codable, Identifiable, Hashable {
     var emojis: String
     var numberOfPairsOfCards: Int
     var color: RGBAColor
-//    var color: RGBAColor
     let id: Int
     
     init(name: String, emojis: String, numberOfPairsOfCards: Int, color: RGBAColor, id: Int) {

@@ -42,7 +42,7 @@ struct ThemeEditor: View {
         theme.name = name
         theme.emojis = candidateEmojis
         theme.numberOfPairsOfCards = min(numberOfPairs, candidateEmojis.count)
-        print("chosenColor: \(chosenColor)")
+//        print("chosenColor: \(chosenColor)")
         theme.color = RGBAColor(color: chosenColor)
     }
     
