@@ -7,6 +7,29 @@
 
 import SwiftUI
 
+struct Theme: Codable, Identifiable, Hashable {
+    var name: String
+    var emojis: String
+    var numberOfPairsOfCards: Int
+    var color: RGBAColor
+    let id: Int
+    
+    fileprivate init(name: String, emojis: String, numberOfPairsOfCards: Int, color: RGBAColor, id: Int) {
+        self.name = name
+        self.emojis = emojis
+        self.numberOfPairsOfCards = max(2, min(numberOfPairsOfCards, emojis.count))
+        self.color = color
+        self.id = id
+    }
+}
+
+struct RGBAColor: Codable, Equatable, Hashable {
+    let red: Double
+    let green: Double
+    let blue: Double
+    let alpha: Double
+}
+
 class ThemeStore: ObservableObject {
     
     let name: String
@@ -28,30 +51,22 @@ class ThemeStore: ObservableObject {
             insertTheme(named: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, color: Color(rgbaColor: RGBAColor(229, 108, 204, 1)))
             insertTheme(named: "Sports", emojis: "⚽️🏀🏈⚾️🎾🏉🥏🏐🎱🏓🏸🏒🥊🚴‍♂️🏊🧗‍♀️🤺🏇🏋️‍♀️⛸⛷🏄🤼", numberOfPairsOfCards: 12)
             insertTheme(named: "Weather", emojis: "☀️🌪☁️☔️❄️", numberOfPairsOfCards: 3, color: Color(rgbaColor: RGBAColor(37, 75, 240, 1)))
-        } else {
-            print("Themes Successfully retrieved from UserDefaults!")
         }
-//        themes = []
     }
 
     
     // MARK: - Save & Load Themes
     
-    private var userDefaultsKey: String {
-        "ThemeStore" + name
-    }
+    private var userDefaultsKey: String { "ThemeStore" + name }
     
     private func storeInUserDefaults() {
         UserDefaults.standard.set(try? JSONEncoder().encode(themes), forKey: userDefaultsKey)
-//        UserDefaults.standard.set(try? JSONEncoder().encode([Theme]()), forKey: userDefaultsKey)
-//        for theme in themes { print("storedthemeColor: \(theme.color)") }
     }
     
     private func restoreFromUserDefaults() {
         if let jsonData = UserDefaults.standard.data(forKey: userDefaultsKey),
            let decodeThemes = try? JSONDecoder().decode([Theme].self, from: jsonData) {
             themes = decodeThemes
-//            for theme in themes { print("restoredthemeColor: \(theme.color)") }
         }
     }
     
@@ -68,7 +83,6 @@ class ThemeStore: ObservableObject {
         let theme = Theme(name: name, emojis: emojis ?? "", numberOfPairsOfCards: numberOfPairsOfCards, color: RGBAColor(color: color), id: unique)
         let safeIndex = min(max(index, 0), themes.count)
         themes.insert(theme, at: safeIndex)
-        
     }
     
     func removeTheme(at index: Int) {

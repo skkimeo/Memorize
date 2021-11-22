@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-class EmojiMemoryGame: ObservableObject, Equatable {
-    static func == (lhs: EmojiMemoryGame, rhs: EmojiMemoryGame) -> Bool {
-        lhs.chosenTheme == rhs.chosenTheme
-    }
-    
-    
+class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String>
-
-    // link this with PaletteChooser later
-    // do i need to make this published..?
     var chosenTheme: Theme
     
     static func createMemoryGame(of theme: Theme) -> MemoryGame<String> {
@@ -33,13 +25,9 @@ class EmojiMemoryGame: ObservableObject, Equatable {
         model = EmojiMemoryGame.createMemoryGame(of: chosenTheme)
     }
     
-    var cards: [MemoryGame<String>.Card] {
-        model.cards
-    }
+    var cards: [MemoryGame<String>.Card] { model.cards }
     
-    var score: Int {
-        model.score
-    }
+    var score: Int { model.score }
     
     // MARK: - Intent(s)
     

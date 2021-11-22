@@ -27,18 +27,8 @@ extension RGBAColor {
         self.init(red: Double(red), green: Double(green), blue: Double(blue), alpha: Double(alpha))
     }
     
-    init(red: Double, green: Double, blue: Double) {
-        self.red = red / 255
-        self.green = green / 255
-        self.blue = blue / 255
-        self.alpha = 1
-    }
-    
     init(_ red: Double, _ green: Double, _ blue: Double, _ alpha: Double) {
-        self.red = red / 255
-        self.green = green / 255
-        self.blue = blue / 255
-        self.alpha = alpha
+        self.init(red: red/255, green: green/255 , blue: blue/255, alpha: alpha)
     }
 }
 

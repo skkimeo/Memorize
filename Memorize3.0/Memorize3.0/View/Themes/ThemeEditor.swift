@@ -18,13 +18,15 @@ struct ThemeEditor: View {
                 removeEmojiSection
                 addEmojiSection
                 cardPairSection
-                cardColorSection
+                colorSection
             }
             .navigationTitle("\(name)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                //cancelButton
-                doneButton
+                ToolbarItem(placement: .cancellationAction) {
+                    cancelButton
+                }
+                ToolbarItem { doneButton }
             }
         }
     }
@@ -42,11 +44,16 @@ struct ThemeEditor: View {
         theme.name = name
         theme.emojis = candidateEmojis
         theme.numberOfPairsOfCards = min(numberOfPairs, candidateEmojis.count)
-//        print("chosenColor: \(chosenColor)")
         theme.color = RGBAColor(color: chosenColor)
     }
     
-    @State private var name: String
+    private var cancelButton: some View {
+        Button("Cancel") {
+            if presentationMode.wrappedValue.isPresented {
+                presentationMode.wrappedValue.dismiss()
+            }
+        }
+    }
     
     init(theme: Binding<Theme>) {
         self._theme = theme
@@ -56,31 +63,44 @@ struct ThemeEditor: View {
         self._chosenColor = State(initialValue: Color(rgbaColor: theme.wrappedValue.color))
     }
     
+    // MARK: - Name Section
+    
+    @State private var name: String
+    
     private var nameSection: some View {
         Section(header: Text("theme name")) {
             TextField("Theme name", text: $name)
         }
     }
     
+    // MARK: - Remove Emojis Section
+    
     @State private var candidateEmojis: String
     
     private var removeEmojiSection: some View {
-        Section(header: Text("Emojis"), footer: Text("Tap To Remove: More than Two needed!")) {
+        let header = HStack {
+            Text("Emojis")
+            Spacer()
+            Text("Tap To Remove")
+        }
+        
+        return Section(header: header) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 20))]) {
                 ForEach(candidateEmojis.map { String($0) }, id: \.self) { emoji in
                     Text(emoji)
                         .onTapGesture {
                             withAnimation {
                                 if candidateEmojis.count > 2 {
-                                candidateEmojis.removeAll { String($0) == emoji}
+                                    candidateEmojis.removeAll { String($0) == emoji}
                                 }
                             }
-                            
                         }
                 }
             }
         }
     }
+    
+    // MARK: - Add Emojis Section
     
     @State private var emojisToAdd = ""
     
@@ -91,7 +111,6 @@ struct ThemeEditor: View {
                     addAsCandidateEmojis(emoji)
                 }
         }
-        
     }
     
     private func addAsCandidateEmojis(_ emojis: String) {
@@ -101,6 +120,8 @@ struct ThemeEditor: View {
                 .removingDuplicateCharacters
         }
     }
+    
+    // MARK: - Number of Card Pairs Section
     
     @State var numberOfPairs: Int
     
@@ -113,20 +134,31 @@ struct ThemeEditor: View {
         }
     }
     
+    // MARK: - Color Section
+    
     @State var chosenColor: Color = .red
     
-    private var cardColorSection: some View {
+    private var colorSection: some View {
         if #available(iOS 15.0, *) {
             return Section("COLOR") {
-                ColorPicker("", selection: $chosenColor, supportsOpacity: false)
+                ColorPicker("Current color is", selection: $chosenColor, supportsOpacity: false)
+                    .foregroundColor(chosenColor)
             }
         } else {
-            return Section(header: Text("Color")) {
+            return Section(header: Text("Current color is")) {
                 ColorPicker("", selection: $chosenColor, supportsOpacity: false)
+                    .foregroundColor(chosenColor)
             }
         }
     }
 }
+
+
+
+
+
+
+
 
 //struct SwiftUIView_Previews: PreviewProvider {
 //    static var previews: some View {
