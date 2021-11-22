@@ -9,13 +9,6 @@ import SwiftUI
 
 // MARK: - Color
 
-struct RGBAColor: Codable, Equatable, Hashable {
-    let red: Double
-    let green: Double
-    let blue: Double
-    let alpha: Double
-}
-
 extension Color {
     init(rgbaColor rgba: RGBAColor) {
         self.init(.sRGB, red: rgba.red, green: rgba.green, blue: rgba.blue, opacity: rgba.alpha)

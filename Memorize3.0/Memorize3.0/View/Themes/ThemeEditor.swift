@@ -42,6 +42,8 @@ struct ThemeEditor: View {
         theme.name = name
         theme.emojis = candidateEmojis
         theme.numberOfPairsOfCards = min(numberOfPairs, candidateEmojis.count)
+        print("chosenColor: \(chosenColor)")
+        theme.color = RGBAColor(color: chosenColor)
     }
     
     @State private var name: String
@@ -51,6 +53,7 @@ struct ThemeEditor: View {
         self._name = State(initialValue: theme.wrappedValue.name)
         self._candidateEmojis = State(initialValue: theme.wrappedValue.emojis)
         self._numberOfPairs = State(initialValue: theme.wrappedValue.numberOfPairsOfCards)
+        self._chosenColor = State(initialValue: Color(rgbaColor: theme.wrappedValue.color))
     }
     
     private var nameSection: some View {
@@ -110,16 +113,16 @@ struct ThemeEditor: View {
         }
     }
     
-    @State var myColor: Color = .red
+    @State var chosenColor: Color = .red
     
     private var cardColorSection: some View {
         if #available(iOS 15.0, *) {
             return Section("COLOR") {
-                ColorPicker("Card is \(theme.cardColor)", selection: $myColor, supportsOpacity: false)
+                ColorPicker("", selection: $chosenColor, supportsOpacity: false)
             }
         } else {
             return Section(header: Text("Color")) {
-                ColorPicker("Card is \(theme.cardColor)", selection: $myColor, supportsOpacity: false)
+                ColorPicker("", selection: $chosenColor, supportsOpacity: false)
             }
         }
     }

@@ -13,8 +13,6 @@ class ThemeStore: ObservableObject {
     
     @Published var themes = [Theme]() {
         didSet {
-            print("move in store : \(themes)")
-            print("current number of themes: \(themes.count)")
             storeInUserDefaults()
         }
     }
@@ -24,12 +22,12 @@ class ThemeStore: ObservableObject {
         restoreFromUserDefaults()
         if themes.isEmpty {
             print("Uh-oh empty themes...inserting defaults...")
-            insertTheme(named: "Vehicles", emojis: "🚗🛴✈️🛵⛵️🚎🚐🚛🚂🚊🚀🚁🚢🛶🛥🚞🚟🚃", numberOfPairsOfCards: 5, cardColor: "red")
-            insertTheme(named: "AnimalFaces", emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐷🐵", numberOfPairsOfCards: 8, cardColor: "green")
-            insertTheme(named: "Food", emojis: "🍔🥐🍕🥗🥟🍣🍪🍚🍝🥙🍭🍤🥞🍦🍛🍗", numberOfPairsOfCards: 10, cardColor: "blue")
-            insertTheme(named: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, cardColor: "orange")
-            insertTheme(named: "Sports", emojis: "⚽️🏀🏈⚾️🎾🏉🥏🏐🎱🏓🏸🏒🥊🚴‍♂️🏊🧗‍♀️🤺🏇🏋️‍♀️⛸⛷🏄🤼", numberOfPairsOfCards: 12, cardColor: "gray")
-            insertTheme(named: "Weather", emojis: "☀️🌪☁️☔️❄️", numberOfPairsOfCards: 3, cardColor: "pink")
+            insertTheme(named: "Vehicles", emojis: "🚗🛴✈️🛵⛵️🚎🚐🚛🚂🚊🚀🚁🚢🛶🛥🚞🚟🚃", numberOfPairsOfCards: 5, color: .red)
+            insertTheme(named: "AnimalFaces", emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐷🐵", numberOfPairsOfCards: 8, color: .green)
+            insertTheme(named: "Food", emojis: "🍔🥐🍕🥗🥟🍣🍪🍚🍝🥙🍭🍤🥞🍦🍛🍗", numberOfPairsOfCards: 10, color: .blue)
+            insertTheme(named: "Hearts", emojis: "❤️🧡💛💚💙💜", numberOfPairsOfCards: 4, color: .purple)
+            insertTheme(named: "Sports", emojis: "⚽️🏀🏈⚾️🎾🏉🥏🏐🎱🏓🏸🏒🥊🚴‍♂️🏊🧗‍♀️🤺🏇🏋️‍♀️⛸⛷🏄🤼", numberOfPairsOfCards: 12, color: .orange)
+            insertTheme(named: "Weather", emojis: "☀️🌪☁️☔️❄️", numberOfPairsOfCards: 3, color: .pink)
         } else {
             print("Themes Successfully retrieved from UserDefaults!")
         }
@@ -62,9 +60,9 @@ class ThemeStore: ObservableObject {
     }
     
     
-    func insertTheme(named name: String, emojis: String? = nil, numberOfPairsOfCards: Int = 2, cardColor: String, at index: Int = 0) {
+    func insertTheme(named name: String, emojis: String? = nil, numberOfPairsOfCards: Int = 2, color: Color = .red, at index: Int = 0) {
         let unique = (themes.max(by: { $0.id < $1.id })?.id ?? 0) + 1
-        let theme = Theme(name: name, emojis: emojis ?? "", numberOfPairsOfCards: numberOfPairsOfCards, cardColor: cardColor, id: unique)
+        let theme = Theme(name: name, emojis: emojis ?? "", numberOfPairsOfCards: numberOfPairsOfCards, color: RGBAColor(color: color), id: unique)
         let safeIndex = min(max(index, 0), themes.count)
         themes.insert(theme, at: safeIndex)
         

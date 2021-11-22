@@ -24,7 +24,7 @@ struct EmojiMemoryGameView: View {
                     }
                 }
             }
-            .foregroundColor(.red)
+            .foregroundColor(Color(rgbaColor: game.chosenTheme.color))
         }
         .padding()
         .navigationTitle("\(game.chosenTheme.name)!")

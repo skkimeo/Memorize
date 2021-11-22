@@ -98,8 +98,7 @@ struct ThemeChooser: View {
     private func themeRow(for theme: Theme) -> some View {
         VStack(alignment: .leading) {
             Text(theme.name)
-                .foregroundColor(.blue)
-//                .foregroundColor(theme.cardColor)
+                .foregroundColor(Color(rgbaColor: theme.color))
                 .font(.system(size: 25))
                 .bold()
             HStack {
@@ -122,7 +121,7 @@ struct ThemeChooser: View {
     
     private var addThemeButton: some View {
         Button {
-            store.insertTheme(named: "new", cardColor: "blue")
+            store.insertTheme(named: "new")
             themeToEdit = store.themes.first
         } label : {
             Image(systemName: "plus")
