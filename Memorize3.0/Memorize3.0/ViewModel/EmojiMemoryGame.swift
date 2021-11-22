@@ -17,13 +17,7 @@ class EmojiMemoryGame: ObservableObject, Equatable {
 
     // link this with PaletteChooser later
     // do i need to make this published..?
-    var chosenTheme: Theme {
-        willSet {
-            if chosenTheme != newValue {
-                startNewGame()
-            }
-        }
-    }
+    var chosenTheme: Theme
     
     static func createMemoryGame(of theme: Theme) -> MemoryGame<String> {
         return MemoryGame(numberOfPairsOfCards: theme.numberOfPairsOfCards) { index in
