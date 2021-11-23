@@ -10,15 +10,13 @@ import SwiftUI
 struct ThemeChooser: View {
     @EnvironmentObject var store: ThemeStore
     @State private var games = [Theme: EmojiMemoryGame]()
-    @State private var chosenTheme: Theme?
     @State private var editMode: EditMode = .inactive
     
     var body: some View {
         NavigationView {
-            if !games.isEmpty {
                 List {
                     ForEach(store.themes.filter { $0.emojis.count > 1 }) { theme in
-                        NavigationLink(destination: getDestination(for: theme), tag: theme, selection: $chosenTheme) {
+                        NavigationLink(destination: getDestination(for: theme)) {
                             themeRow(for: theme)
                         }
                         .gesture(editMode == .active ? tapToOpenThemeEditor(for: theme) : nil)
@@ -42,15 +40,10 @@ struct ThemeChooser: View {
                     ToolbarItem { EditButton() }
                 }
                 .environment(\.editMode, $editMode)
-            }
         }
         .stackNavigationViewStyleIfiPad()
-        .onAppear { updateGames(from: store.themes) }
         .onChange(of: store.themes) { newThemes in
-            updateGames(from: newThemes)
-        }
-        .onChange(of: chosenTheme) { newChosenTheme in
-            restartIfChosenThemeChanges(newChosenTheme)
+            updateGames(to: newThemes)
         }
     }
     
@@ -111,23 +104,12 @@ struct ThemeChooser: View {
     
 
     //MARK: - Updating Game
-    
-    @State var lastChosenTheme : Theme?
 
-    private func updateGames(from: [Theme]) {
-        var games = [Theme: EmojiMemoryGame]()
-        store.themes.filter { $0.emojis.count >= 2 }.forEach { theme in
-            games.updateValue(EmojiMemoryGame(theme: theme), forKey: theme)
-        }
-        self.games = games
-    }
-    
-    private func restartIfChosenThemeChanges(_ newChosenTheme: Theme?) {
-        if lastChosenTheme != nil && newChosenTheme != nil && lastChosenTheme != newChosenTheme {
-            updateGames(from: store.themes)
-        }
-        if newChosenTheme != nil {
-            lastChosenTheme = newChosenTheme
+    private func updateGames(to newThemes: [Theme]) {
+        store.themes.filter { $0.emojis.count >= 2}.forEach { theme in
+            if !newThemes.contains(theme) {
+                store.themes.remove(theme)
+            }
         }
     }
 }

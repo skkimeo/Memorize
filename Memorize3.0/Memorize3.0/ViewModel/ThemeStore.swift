@@ -68,6 +68,7 @@ class ThemeStore: ObservableObject {
     
     private func storeInUserDefaults() {
         UserDefaults.standard.set(try? JSONEncoder().encode(themes), forKey: userDefaultsKey)
+//        UserDefaults.standard.set(try? JSONEncoder().encode([Theme]()), forKey: userDefaultsKey)
     }
     
     private func restoreFromUserDefaults() {
